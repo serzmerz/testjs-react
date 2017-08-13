@@ -15,18 +15,26 @@ import history from './utils/history';
 import './index.css';
 import OrderList from './conteiners/OrderList';
 import CreateOrder from './conteiners/CreateOrder';
+import EditOrder from './conteiners/EditOrder';
 import Home from './conteiners/Home';
 import MainLayout from './components/MainLayout';
 import NavBar from './components/NavBar';
 import registerServiceWorker from './registerServiceWorker';
 
-import reducer from './reducers';
+import {loginUserSuccess} from './actions/auth';
+import LoginForm from './conteiners/LoginForm';
+import SignupForm from './conteiners/SignupForm';
+import {requireAuthentication} from './components/AuthenticatedComponent';
 
-import 'materialize-css/dist/css/materialize.min.css';
+import reducer from './reducers';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 syncHistoryWithStore(history, store);
 
+let token = localStorage.getItem('token');
+if (token !== null) {
+    store.dispatch(loginUserSuccess(token));
+}
 
 ReactDOM.render(
     <Provider store={store}>
@@ -36,18 +44,20 @@ ReactDOM.render(
                 <NavBar/>
                 <div className="row">
                     <div className="col s12 m4 l3">
-                        <MainLayout/>
+                        <MainLayout history={history}/>
                     </div>
 
                     <div className="col s12 m8 l9">
                         <Switch>
                             <Route exact path="/" component={Home}/>
-                            <Route path="/orders" component={OrderList}/>
-                            <Route path="/new-order" component={CreateOrder}/>
+                            <Route path="/orders" component={requireAuthentication(OrderList)}/>
+                            <Route path="/new-order" component={requireAuthentication(CreateOrder)}/>
+                            <Route path="/edit/:id" component={requireAuthentication(EditOrder)}/>
+                            <Route path="/login" component={LoginForm}/>
+                            <Route path="/signup" component={SignupForm}/>
                         </Switch>
                     </div>
                 </div>
-
 
             </div>
         </Router>
