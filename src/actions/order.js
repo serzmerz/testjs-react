@@ -5,7 +5,6 @@ import { FETCH_ORDERS_REQUEST, FETCH_ORDERS_SUCCESS, FETCH_ORDERS_FAILURE,
     API_URL } from '../constants/actions';
 import { checkHttpStatus, parseJSON } from '../utils';
 import history from '../utils/history';
-import {loginUserFailure} from './auth';
 
 export function clearOrderList(){
     return {
@@ -57,10 +56,6 @@ export const getOrders = (token) => dispatch => {
 
         })
         .catch(error => {
-            if(error.response.status === 401) {
-                dispatch(loginUserFailure(error));
-                history.push('/login');
-            }
             dispatch(fetchOrdersError(error));
         })
 };
@@ -107,21 +102,16 @@ export function createOrder(stateData, token) {
                     dispatch(createOrderSuccess(response.response));
                     history.push('/orders');
                 } catch (e) {
-                    console.log(e);
                     dispatch(createOrderFailure({
                         response: {
                             status: 403,
                             statusText: 'Invalid token'
                         }
                     }));
-                    dispatch(loginUserFailure());
-                    history.push('/login');
                 }
             })
             .catch(error => {
                 dispatch(createOrderFailure(error));
-                dispatch(loginUserFailure(error));
-                history.push('/login');
             })
     }
 }
@@ -177,14 +167,10 @@ export function updateOrder(stateData, token) {
                             statusText: 'Invalid token'
                         }
                     }));
-                    dispatch(loginUserFailure());
-                    history.push('/login');
                 }
             })
             .catch(error => {
                 dispatch(updateOrderFailure(error));
-                dispatch(loginUserFailure(error));
-                history.push('/login');
             })
     }
 }

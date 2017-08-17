@@ -21,20 +21,11 @@ import MainLayout from './components/MainLayout';
 import NavBar from './components/NavBar';
 import registerServiceWorker from './registerServiceWorker';
 
-import {loginUserSuccess} from './actions/auth';
-import LoginForm from './conteiners/LoginForm';
-import SignupForm from './conteiners/SignupForm';
-import {requireAuthentication} from './components/AuthenticatedComponent';
 
 import reducer from './reducers';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 syncHistoryWithStore(history, store);
-
-let token = localStorage.getItem('token');
-if (token !== null) {
-    store.dispatch(loginUserSuccess(token));
-}
 
 ReactDOM.render(
     <Provider store={store}>
@@ -50,11 +41,9 @@ ReactDOM.render(
                     <div className="col s12 m8 l9">
                         <Switch>
                             <Route exact path="/" component={Home}/>
-                            <Route path="/orders" component={requireAuthentication(OrderList)}/>
-                            <Route path="/new-order" component={requireAuthentication(CreateOrder)}/>
-                            <Route path="/edit/:id" component={requireAuthentication(EditOrder)}/>
-                            <Route path="/login" component={LoginForm}/>
-                            <Route path="/signup" component={SignupForm}/>
+                            <Route path="/orders" component={OrderList}/>
+                            <Route path="/new-order" component={CreateOrder}/>
+                            <Route path="/edit/:id" component={EditOrder}/>
                         </Switch>
                     </div>
                 </div>
