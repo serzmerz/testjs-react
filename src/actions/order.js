@@ -1,24 +1,26 @@
-import { FETCH_ORDERS_REQUEST, FETCH_ORDERS_SUCCESS, FETCH_ORDERS_FAILURE,
+import {
+    FETCH_ORDERS_REQUEST, FETCH_ORDERS_SUCCESS, FETCH_ORDERS_FAILURE,
     CREATE_ORDER_REQUEST, CREATE_ORDERS_SUCCESS, CREATE_ORDERS_FAILURE,
     UPDATE_ORDER_REQUEST, UPDATE_ORDERS_SUCCESS, UPDATE_ORDERS_FAILURE,
     CHANGE_CREATE_ORDER_STATUS, CLEAR_ORDER_LIST,
-    API_URL } from '../constants/actions';
-import { checkHttpStatus, parseJSON } from '../utils';
+    API_URL
+} from '../constants/actions';
+import {checkHttpStatus, parseJSON} from '../utils';
 import history from '../utils/history';
 
-export function clearOrderList(){
+export function clearOrderList() {
     return {
         type: CLEAR_ORDER_LIST
     }
 }
 
-export function changeCreateOrderStatus(){
+export function changeCreateOrderStatus() {
     return {
         type: CHANGE_CREATE_ORDER_STATUS
     }
 }
 
-function fetchOrdersRequest(){
+function fetchOrdersRequest() {
     return {
         type: FETCH_ORDERS_REQUEST
     }
@@ -40,7 +42,7 @@ function fetchOrdersError(error) {
 
 export const getOrders = (token) => dispatch => {
     dispatch(fetchOrdersRequest());
-    return fetch(API_URL+'/order', {
+    return fetch(API_URL + '/order', {
         credentials: 'include',
         headers: {
             'Authorization': `Bearer ${token}`
@@ -49,7 +51,7 @@ export const getOrders = (token) => dispatch => {
         .then(checkHttpStatus)
         .then(parseJSON)
         .then(response => {
-            if(response.response.success)
+            if (response.response.success)
                 dispatch(fetchOrdersSuccess(response.response.data));
             else
                 dispatch(fetchOrdersError(response.response.error));
@@ -82,9 +84,9 @@ export function createOrderRequest() {
 
 export function createOrder(stateData, token) {
     console.log(stateData);
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch(createOrderRequest());
-        return fetch(API_URL+'/order', {
+        return fetch(API_URL + '/order', {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -140,9 +142,9 @@ export function updateOrderRequest() {
 
 export function updateOrder(stateData, token) {
     console.log(stateData);
-    return function(dispatch) {
+    return function (dispatch) {
         dispatch(updateOrderRequest());
-        return fetch(API_URL+'/order', {
+        return fetch(API_URL + '/order', {
             method: 'PUT',
             credentials: 'include',
             headers: {

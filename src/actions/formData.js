@@ -1,8 +1,10 @@
-import { FETCH_FORM_DATA_REQUEST, FETCH_FORM_DATA_SUCCESS, FETCH_FORM_DATA_FAILURE,
-    API_URL } from '../constants/actions';
-import { checkHttpStatus, parseJSON } from '../utils';
+import {
+    FETCH_FORM_DATA_REQUEST, FETCH_FORM_DATA_SUCCESS, FETCH_FORM_DATA_FAILURE,
+    API_URL
+} from '../constants/actions';
+import {checkHttpStatus, parseJSON} from '../utils';
 
-function fetchDataRequest(){
+function fetchDataRequest() {
     return {
         type: FETCH_FORM_DATA_REQUEST
     }
@@ -23,12 +25,12 @@ function fetchDataError(error) {
 }
 
 export const getFormData = () => dispatch => {
-    dispatch(fetchDataRequest()); //Действие, информирующее редюсер о том, что запрос начался.
-    return fetch(API_URL+'/order/data')
+    dispatch(fetchDataRequest());
+    return fetch(API_URL + '/order/data')
         .then(checkHttpStatus)
         .then(parseJSON)
         .then(response => {
-            if(response.response.success)
+            if (response.response.success)
                 dispatch(fetchDataSuccess(response.response.data));
             else
                 dispatch(fetchDataError(response.response.error));

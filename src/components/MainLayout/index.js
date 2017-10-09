@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import React, {Component} from 'react';
+import {Link} from "react-router-dom";
 
 class MainLayout extends Component {
 
@@ -16,7 +16,7 @@ class MainLayout extends Component {
                 {
                     title: "Orders",
                     href: "/orders"
-                 },
+                },
                 {
                     title: "New order",
                     href: "/new-order"
@@ -39,9 +39,9 @@ class MainLayout extends Component {
             >{item.title}</Link>
         );
         return (
-                <div className="collection">
-                    {res}
-                </div>
+            <div className="collection">
+                {res}
+            </div>
         );
     }
 }

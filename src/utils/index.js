@@ -9,6 +9,6 @@ export function checkHttpStatus(response) {
 }
 
 export function parseJSON(response) {
-     return response.json()
+    return response.json()
 }
 
