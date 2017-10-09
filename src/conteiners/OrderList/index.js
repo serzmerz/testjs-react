@@ -18,8 +18,8 @@ const formatDate = (date) => {
 };
 
 const checkDate = (dateFirst, dateSecond) => {
-    dateFirst = new Date(parseInt(dateFirst));
-    dateSecond = new Date(parseInt(dateSecond));
+    dateFirst = new Date(parseInt(dateFirst, 10));
+    dateSecond = new Date(parseInt(dateSecond, 10));
     return (dateFirst.getFullYear() <= dateSecond.getFullYear())
         && (dateFirst.getMonth() <= dateSecond.getMonth())
         && ((dateFirst.getDate() + 3) <= dateSecond.getDate());
@@ -34,13 +34,13 @@ const OrderList = ({data, actions}) => {
     const renderTableItems = data.items.map((item, index) =>
         <OrderItem
             idRecord={item.id}
-            orderDate={formatDate(new Date(parseInt(item.orderDate)))}
+            orderDate={formatDate(new Date(parseInt(item.orderDate, 10)))}
             orderName={item.orderTranscription}
             orderId={item.orderNumber}
             orderType={item.orderType}
             customer={item.customerFistName + ' ' + item.customerSecondName}
             provider={item.orderProvider}
-            fulfilled={formatDate(new Date(parseInt(item.orderDatePerformance)))}
+            fulfilled={formatDate(new Date(parseInt(item.orderDatePerformance, 10)))}
             statusOrder={item.orderStatus}
             willBeEdit={checkDate(item.orderDate, item.orderDatePerformance)}
         />);

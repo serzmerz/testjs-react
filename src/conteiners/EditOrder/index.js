@@ -106,7 +106,7 @@ class EditOrder extends Component {
                         customerPhone={this.state.customerPhone}
                         orderType={this.state.orderType}
                         orderProvider={this.state.orderProvider}
-                        orderDatePerformance={new Date(parseInt(this.state.orderDatePerformance)).toDateString()}
+                        orderDatePerformance={new Date(parseInt(this.state.orderDatePerformance, 10)).toDateString()}
                     />}
             </div>
         );
